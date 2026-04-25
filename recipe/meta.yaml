@@ -6,21 +6,21 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 67d1a29a1d4462f9ba1a7f5915e13e28175ec1836d6ab61b665b4fb7d8d3baa6
 
 build:
   noarch: python
-  number: 0
-  script: python -m pip install --no-deps --ignore-installed .
+  number: 1
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
     - six
   run:
-    - python
+    - python >={{ python_min }}
     - six
 
 test:
@@ -28,6 +28,7 @@ test:
     - vacumm_data
   requires:
     - pytest
+    - python {{ python_min }}
   commands:
     - pytest
   source_files:
